@@ -5,7 +5,7 @@ std::shared_ptr<String> String::fromJsonString(std::string string, int& index)
 {
     std::shared_ptr<String> result(new String);
     int stringStart = index + 1;
-    index = string.find(JSON_STRING_CLOSE, index) + 1;
+    index = string.find(JSON_STRING_CLOSE, index + 1) + 1;
     result->value = string.substr(stringStart, index - stringStart - 1);
     return result;
 }
