@@ -21,16 +21,18 @@ std::shared_ptr<Object> Object::fromJsonString(std::string string, int& index)
 std::string Object::toJsonString(int depth)
 {
     std::string result(JSON_OBJECT_OPEN);
-    result.append(NEW_LINE);
     for (auto& i : values)
     {
+        result.append(NEW_LINE);
         for (int i = 0; i <= depth; i++)
             result.append(JSON_SEP);
         std::shared_ptr<String> first(new String);
         first->value = i.first;
         result.append(first->toJsonString(depth + 1)).append(JSON_OBJECT_SEPARATOR).append(i.second->toJsonString(depth + 1));
-        result.append(COMMA).append(NEW_LINE);
+        result.append(COMMA);
     }
+    if (result.substr(result.size()-COMMA.size()) == COMMA)
+        result.erase(result.size()-COMMA.size());
     for (int i = 0; i < depth; i++)
         result.append(JSON_SEP);
     return result.append(JSON_OBJECT_CLOSE);

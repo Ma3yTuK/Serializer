@@ -17,14 +17,16 @@ std::shared_ptr<Array> Array::fromJsonString(std::string string, int& index)
 std::string Array::toJsonString(int depth)
 {
     std::string result(JSON_ARRAY_OPEN);
-    result.append(NEW_LINE);
     for (auto& i : values)
     {
+        result.append(NEW_LINE);
         for (int i = 0; i <= depth; i++)
             result.append(JSON_SEP);
         result.append(i->toJsonString(depth + 1));
-        result.append(COMMA).append(NEW_LINE);
+        result.append(COMMA);
     }
+    if (result.substr(result.size()-COMMA.size()) == COMMA)
+        result.erase(result.size()-COMMA.size());
     for (int i = 0; i < depth; i++)
         result.append(JSON_SEP);
     return result.append(JSON_ARRAY_CLOSE);
